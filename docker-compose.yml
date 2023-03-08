@@ -1,0 +1,117 @@
+version: '3'
+
+services:
+
+  hdfs-name-node-1:
+    container_name: hdfs-name-node-1
+    hostname: hdfs-name-node-1
+    build: &hadoop-image
+      context: hadoop
+      args:
+        HADOOP_VERSION: "3.3.4"
+    command: "bash -c 'format-hdfs.sh ; hdfs namenode'"
+    volumes:
+      - ./hdfs-site.xml:/usr/local/hadoop/etc/hadoop/hdfs-site.xml
+      - name-node-1:/hadoop
+    environment: &hadoop-environment
+      HADOOP_HEAPSIZE: 512m
+#    ports:
+#      - "9870:9870"
+    deploy: &shared-limits
+      resources:
+        limits:
+          memory: "512M"
+
+
+  hdfs-data-node-1: &hdfs-data-node
+    container_name: hdfs-data-node-1
+    hostname: hdfs-data-node-1
+    build:
+      <<: *hadoop-image
+    command: "hdfs datanode"
+    volumes:
+      - ./hdfs-site.xml:/usr/local/hadoop/etc/hadoop/hdfs-site.xml
+      - data-node-1:/hadoop
+    environment:
+      <<: *hadoop-environment
+    deploy:
+      <<: *shared-limits
+
+  hdfs-data-node-2:
+    <<: *hdfs-data-node
+    container_name: hdfs-data-node-2
+    hostname: hdfs-data-node-2
+    volumes:
+      - ./hdfs-site.xml:/usr/local/hadoop/etc/hadoop/hdfs-site.xml
+      - data-node-2:/hadoop
+
+
+  zookeeper:
+    container_name: zookeeper
+    hostname: zookeeper
+    image: zookeeper:3.8
+    volumes:
+      - zookeeper:/zookeeper
+    environment: &hbase-environment
+      HBASE_NO_REDIRECT_LOG: "true"
+      HBASE_ROOT_LOGGER: "INFO,console"
+      HBASE_HEAPSIZE: "512m"
+      HADOOP_HOME: "/usr/local/hadoop"
+    deploy:
+      <<: *shared-limits
+
+
+  hbase-master-1: &hbase-master
+    container_name: hbase-master-1
+    hostname: hbase-master-1
+    build:
+      context: hbase
+      args:
+        HADOOP_VERSION: "3.3.4"
+        HBASE_VERSION: "2.5.3"
+        HBASE_QUALIFIER: "-hadoop3"
+    command: "hbase-daemon.sh foreground_start master"
+    volumes:
+      - ./hbase-site.xml:/usr/local/hbase/conf/hbase-site.xml
+    environment:
+      <<: *hbase-environment
+#    ports:
+#      - "16011:16010"
+    deploy:
+      <<: *shared-limits
+
+  hbase-master-2:
+    <<: *hbase-master
+    container_name: hbase-master-2
+    hostname: hbase-master-2
+    ports:
+      - "16012:16010"
+
+
+  hbase-region-server-1: &region-server
+    <<: *hbase-master
+    container_name: hbase-region-server-1
+    hostname: hbase-region-server-1
+    command: "hbase-daemon.sh foreground_start regionserver"
+#    ports:
+#      - "16031:16030"
+
+  hbase-region-server-2:
+    <<: *region-server
+    container_name: hbase-region-server-2
+    hostname: hbase-region-server-2
+#    ports:
+#      - "16032:16030"
+
+  hbase-region-server-3:
+    <<: *region-server
+    container_name: hbase-region-server-3
+    hostname: hbase-region-server-3
+#    ports:
+#      - "16033:16030"
+
+volumes:
+  name-node-1:
+  data-node-1:
+  data-node-2:
+  zookeeper:
