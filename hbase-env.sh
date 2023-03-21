@@ -43,7 +43,7 @@
 # settings by specifying a value here. For more details on possible settings,
 # see http://hbase.apache.org/book.html#_jvm_tuning
 # export HBASE_OPTS
-export HBASE_OPTS=-Djava.library.path=/usr/local/hadoop/lib/native
+#export HBASE_OPTS=-Djava.library.path=/usr/local/hadoop/lib/native
 
 # Uncomment one of the below three options to enable java garbage collection logging for the server-side processes.
 
