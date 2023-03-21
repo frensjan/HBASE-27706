@@ -74,7 +74,7 @@ services:
       HBASE_NO_REDIRECT_LOG: "true"
       HBASE_ROOT_LOGGER: "INFO,console"
       HBASE_HEAPSIZE: "512m"
-      HADOOP_HOME: "/usr/local/hadoop"
+      # HADOOP_HOME: "/usr/local/hadoop"
 #    ports:
 #      - "16011:16010"
     deploy:
