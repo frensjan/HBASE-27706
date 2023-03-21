@@ -21,10 +21,10 @@
         <value>false</value>
     </property>
 
-    <property>
-        <name>hbase.wal.provider</name>
-        <value>filesystem</value>
-    </property>
+<!--    <property>-->
+<!--        <name>hbase.wal.provider</name>-->
+<!--        <value>filesystem</value>-->
+<!--    </property>-->
 
     <property>
         <name>hbase.io.compress.zstd.codec</name>
