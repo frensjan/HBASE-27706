@@ -73,6 +73,7 @@ services:
     command: "hbase-daemon.sh foreground_start master"
     volumes:
       - ./hbase-site.xml:/usr/local/hbase/conf/hbase-site.xml
+      - ./hbase-env.sh:/usr/local/hbase/conf/hbase-env.sh
     environment:
       <<: *hbase-environment
 #    ports:
