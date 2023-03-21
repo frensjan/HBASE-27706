@@ -70,6 +70,7 @@ services:
       - ./hbase-site.xml:/usr/local/hbase/conf/hbase-site.xml
       - ./hbase-env.sh:/usr/local/hbase/conf/hbase-env.sh
     environment:
+      DEBUG: "true"
       HBASE_NO_REDIRECT_LOG: "true"
       HBASE_ROOT_LOGGER: "INFO,console"
       HBASE_HEAPSIZE: "512m"
