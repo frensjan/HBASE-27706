@@ -52,11 +52,6 @@ services:
     image: zookeeper:3.8
     volumes:
       - zookeeper:/zookeeper
-    environment: &hbase-environment
-      HBASE_NO_REDIRECT_LOG: "true"
-      HBASE_ROOT_LOGGER: "INFO,console"
-      HBASE_HEAPSIZE: "512m"
-      HADOOP_HOME: "/usr/local/hadoop"
     deploy:
       <<: *shared-limits
 
@@ -75,7 +70,10 @@ services:
       - ./hbase-site.xml:/usr/local/hbase/conf/hbase-site.xml
       - ./hbase-env.sh:/usr/local/hbase/conf/hbase-env.sh
     environment:
-      <<: *hbase-environment
+      HBASE_NO_REDIRECT_LOG: "true"
+      HBASE_ROOT_LOGGER: "INFO,console"
+      HBASE_HEAPSIZE: "512m"
+      HADOOP_HOME: "/usr/local/hadoop"
 #    ports:
 #      - "16011:16010"
     deploy:
