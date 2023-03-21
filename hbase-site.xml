@@ -26,9 +26,9 @@
 <!--        <value>filesystem</value>-->
 <!--    </property>-->
 
-    <property>
-        <name>hbase.io.compress.zstd.codec</name>
-        <value>org.apache.hadoop.hbase.io.compress.zstd.ZstdCodec</value>
-    </property>
+<!--    <property>-->
+<!--        <name>hbase.io.compress.zstd.codec</name>-->
+<!--        <value>org.apache.hadoop.hbase.io.compress.zstd.ZstdCodec</value>-->
+<!--    </property>-->
 </configuration>
 
